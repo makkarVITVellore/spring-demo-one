@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	
+<!--	&lt;!&ndash;load the properties file: coach.properties&ndash;&gt;-->
+<!--	-->
+<!--	<context:property-placeholder location = "classpath:coach.properties"/>-->
+<!--	-->
+<!--	-->
+<!--    &lt;!&ndash; Define your beans here &ndash;&gt;-->
+<!--    -->
+<!--    &lt;!&ndash; Define the dependency &ndash;&gt;-->
+<!--    <bean id="myFortune" -->
+<!--    	  class = "springdemo.HappyFortuneService">-->
+<!--    </bean>-->
+<!--    -->
+<!--    -->
+<!--    <bean id = "myCoach"-->
+<!--    	 class = "springdemo.TrackCoach">-->
+<!--    	 -->
+<!--    	 &lt;!&ndash; set up constructor injection &ndash;&gt;-->
+<!--    	 <constructor-arg ref="myFortune"/>-->
+<!--    </bean>-->
+<!--    -->
+<!--    <bean id = "theCricketCoach"-->
+<!--    	  class = "springdemo.CricketCoach">-->
+<!--    	  -->
+<!--    &lt;!&ndash; set up setter injection &ndash;&gt;-->
+<!--    <property name = "fortuneService" ref ="myFortune"/> -->
+<!--    -->
+<!--    &lt;!&ndash;inject literal values&ndash;&gt;-->
+<!--    <property name = "emailAddress" value = "${email}"/>-->
+<!--    <property name = "team" value = "${team}"/>-->
+<!--   	</bean>-->
+
+    <!-- load the properties - coach.properties -->
+    <context:property-placeholder location="classpath:coach.properties"/>
+
+    <bean id="myDiet"
+          class="springdemonew.RandomDietService">
+    </bean>
+    <bean id="myCoach"
+          class="springdemonew.BaseballCoach"
+          scope="prototype">
+
+        <!-- set up constructor injection-->
+        <constructor-arg ref="myDiet"/>
+    </bean>
+
+    <bean id="myTrackCoach"
+          class="springdemonew.TrackCoach">
+
+        <!-- set up setter injection -->
+        <property name="dietService" ref="myDiet" />
+
+        <!-- inject literal values -->
+        <property name="emailAddress" value="${coach.email}" />
+        <property name="team" value="${coach.team}" />
+    </bean>
+</beans>
+
+
+
+
+
