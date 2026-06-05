@@ -25,18 +25,22 @@ public class BeanLifecycleDemoApp {
         * 4. Container removes all bean instances from its cache.
           5. Note - Spring only manages the destruction lifecycle for Singleton beans. If your bean is scoped as a Prototype,
           *  Spring instantiates it, hands it to you, and completely forgets about it.
-          * Spring will never call a destroy method on a prototype bean.*/
+          * Spring will never call a destroy method on a prototype bean. We need to write custom logic to call this method.
+          6. When app stops, JVM shuts down and during this all the prototype beans are cleaned up.*/
 
         /*This is what happens when we initialize the container -
          * 1. The container(ApplicationContext object) locates and reads your XML file.
-         * 2, Parse XML, read and store the metadata(bean id, class name, scope and dependencies) for each bean.
+         * 2, Parse XML, read and store the metadata(bean id, class name, scope and dependencies) for each bean (both
+         * singleton and prototype beans).
          * 3. Spring reads the external properties file and replaces placeholders like ${coach.email} with actual
          *    values.
-         * 4. Create and store the beans (having singleton scope)
-         * 5. As part of step 4, Spring allocates memory and calls the standard Java constructor of the bean class.
-         * 6. Spring looks at the XML/annotations and injects all the required dependencies using setter methods
+         * 4. Spring loops through the BeanDefinitions and calls the standard Java constructor
+              to allocate memory for singleton beans (singleton beans are eagerly initialized). Prototype beans
+              * are created on demand (as and when required). Prototype beans are initialized during startup only
+              * when some singleton bean is dependent on them.
+         * 5. Spring looks at the XML/annotations and injects all the required dependencies using setter methods
          * or constructor/field injection.
-         * 7. Now that the bean is fully constructed, its dependencies are injected, Spring calls the dedicated initialization method.
+         * 7. Now that the beans are fully constructed, their dependencies injected, Spring calls the dedicated initialization method.
          * 8. Now bean is ready for use!*/
 
     }
